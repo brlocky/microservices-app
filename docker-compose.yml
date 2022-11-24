@@ -7,6 +7,8 @@ services:
     command: npm run start:dev gateway
     env_file:
       - ./apps/gateway/.env
+    depends_on:
+      - kafka
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -24,6 +26,7 @@ services:
       env_file:
         - ./apps/auth/.env
       depends_on:
+        - kafka
         - mongodb-primary
         - mongodb-secondary
         - mongodb-arbiter
@@ -40,6 +43,7 @@ services:
     env_file:
       - ./apps/todo/.env
     depends_on:
+      - kafka
       - mongodb-primary
       - mongodb-secondary
       - mongodb-arbiter
