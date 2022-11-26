@@ -11,28 +11,26 @@ services:
       - kafka
     volumes:
       - .:/usr/src/app
-      - /usr/src/app/node_modules
     ports:
       - '3000:3000'
+    profiles: ["app"]
 
   auth:
-      build:
-        context: .
-        dockerfile: ./apps/auth/Dockerfile
-        target: development
-      command: npm run start:dev auth
-      ports:
-        - '3001:3001'
-      env_file:
-        - ./apps/auth/.env
-      depends_on:
-        - kafka
-        - mongodb-primary
-        - mongodb-secondary
-        - mongodb-arbiter
-      volumes:
-        - .:/usr/src/app
-        - /usr/src/app/node_modules
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+      target: development
+    command: npm run start:dev auth
+    env_file:
+      - ./apps/auth/.env
+    depends_on:
+      - kafka
+      - mongodb-primary
+      - mongodb-secondary
+      - mongodb-arbiter
+    volumes:
+      - .:/usr/src/app
+    profiles: ["app"]
 
   todo:
     build:
@@ -49,7 +47,7 @@ services:
       - mongodb-arbiter
     volumes:
       - .:/usr/src/app
-      - /usr/src/app/node_modules
+    profiles: ["app"]
 
   mongodb-primary:
     image: docker.io/bitnami/mongodb:5.0
@@ -62,6 +60,7 @@ services:
       - 'mongodb_master_data:/bitnami/mongodb'
     ports:
       - '27017:27017'
+    profiles: ["server"]
 
   mongodb-secondary:
     image: docker.io/bitnami/mongodb:5.0
@@ -73,6 +72,7 @@ services:
       - MONGODB_INITIAL_PRIMARY_HOST=mongodb-primary
       - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
       - MONGODB_REPLICA_SET_KEY=replicasetkey123
+    profiles: ["server"]
 
   mongodb-arbiter:
     image: docker.io/bitnami/mongodb:5.0
@@ -84,11 +84,13 @@ services:
       - MONGODB_INITIAL_PRIMARY_HOST=mongodb-primary
       - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
       - MONGODB_REPLICA_SET_KEY=replicasetkey123
+    profiles: ["server"]
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
+    profiles: ["server"]
 
   kafka:
     image: confluentinc/cp-kafka:latest
@@ -105,6 +107,7 @@ services:
       KAFKA_LISTENERS: INTERNAL://:9092,OUTSIDE://:9094
       KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,OUTSIDE://host.docker.internal:9094
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
+    profiles: ["server"]
 
   control-center:
     image: confluentinc/cp-enterprise-control-center:6.0.1
@@ -118,6 +121,7 @@ services:
       CONTROL_CENTER_REPLICATION_FACTOR: 1
       CONTROL_CENTER_CONNECT_CLUSTER: http://kafka-connect:8083
       PORT: 9021
+    profiles: ["server"]
       
 volumes:
   mongodb_master_data:
