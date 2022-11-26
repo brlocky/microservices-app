@@ -1,11 +1,6 @@
 import { Inject, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc, RpcException } from '@nestjs/microservices';
-import { firstValueFrom, Observable } from 'rxjs';
-import { CreateTodoDto } from './dto/create-todo.dto';
-
-interface TodoGrpcService {
-  createTodo(data: CreateTodoDto): Observable<any>;
-}
+import { CreateTodoRequest, TodoGrpcService } from 'proto/todo';
 
 export class TodoService implements OnModuleInit {
   private todoGrpcService: TodoGrpcService;
@@ -14,13 +9,13 @@ export class TodoService implements OnModuleInit {
 
   onModuleInit() {
     this.todoGrpcService =
-      this.client.getService<TodoGrpcService>('TodoService');
+      this.client.getService<TodoGrpcService>('TodoGrpcService');
   }
 
   // TODO: Handle exception with interceptors convert RPC to HTTP
-  async createTodo(data: CreateTodoDto) {
+  async createTodo(data: CreateTodoRequest) {
     try {
-      return await firstValueFrom(this.todoGrpcService.createTodo(data));
+      return await this.todoGrpcService.CreateTodo(data);
     } catch (e) {
       throw new RpcException({ code: e.code, message: e.message });
     }

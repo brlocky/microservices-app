@@ -1,5 +1,5 @@
 ###
-GET http://localhost:3000
+GET http://localhost:3000/todo
 
 ###
 POST http://localhost:3000/todo

@@ -1,4 +1,5 @@
 FROM node:alpine As development
+RUN apk add --no-cache protoc
 
 WORKDIR /usr/src/app
 
@@ -11,6 +12,7 @@ COPY . .
 RUN npm run build gateway
 
 FROM node:alpine as production
+RUN apk add --no-cache protoc
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}

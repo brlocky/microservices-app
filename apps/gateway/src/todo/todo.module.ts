@@ -19,13 +19,7 @@ import { TodoController } from './todo.controller';
     ]),
     TodoModule,
   ],
-  controllers: [
-    TodoController,
-  ],
-  providers: [
-     TodoService,
-  ],
+  controllers: [TodoController],
+  providers: [TodoService],
 })
-export class TodoModule {
-  
-}
+export class TodoModule {}
