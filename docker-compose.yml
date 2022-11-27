@@ -12,7 +12,9 @@ services:
     ports:
       - '3000:3000'
     profiles: [ "app" ]
-
+    networks:
+      - network
+  
   auth:
     build:
       context: .
@@ -27,7 +29,9 @@ services:
     volumes:
       - .:/usr/src/app
     profiles: [ "app" ]
-
+    networks:
+      - network
+  
   todo:
     build:
       context: .
@@ -42,7 +46,9 @@ services:
     volumes:
       - .:/usr/src/app
     profiles: [ "app" ]
-
+    networks:
+      - network
+  
   mongodb:
     image: mongo
     ports:
@@ -51,7 +57,9 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=password
     profiles: [ "server" ]
-
+    networks:
+      - network
+  
   mongo-express:
     image: mongo-express
     ports:
@@ -63,13 +71,17 @@ services:
     depends_on:
       - mongodb
     profiles: [ "server" ]
-
+    networks:
+      - network
+  
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
     profiles: [ "server" ]
-
+    networks:
+      - network
+  
   kafka:
     image: confluentinc/cp-kafka:latest
     depends_on:
@@ -86,7 +98,9 @@ services:
       KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,OUTSIDE://host.docker.internal:9094
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
     profiles: [ "server" ]
-
+    networks:
+      - network
+  
   control-center:
     image: confluentinc/cp-enterprise-control-center:6.0.1
     hostname: control-center
@@ -100,3 +114,9 @@ services:
       CONTROL_CENTER_CONNECT_CLUSTER: http://kafka-connect:8083
       PORT: 9021
     profiles: [ "server" ]
+    networks:
+      - network
+
+networks:
+  network:
+    driver: bridge
