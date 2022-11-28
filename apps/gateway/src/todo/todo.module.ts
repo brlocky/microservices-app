@@ -1,20 +1,28 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { join } from 'path';
-import { TodoService } from './todo.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TodoController } from './todo.controller';
+import { TodoService } from './todo.service';
 
 @Module({
   imports: [
-    ClientsModule.register([
+    ClientsModule.registerAsync([
       {
         name: 'TODO_PACKAGE',
-        transport: Transport.GRPC,
-        options: {
-          url: 'todo:50051',
-          package: 'todo',
-          protoPath: join(__dirname, '../../../libs/common/src/proto/todo.proto'),
-        },
+        imports: [ConfigModule],
+        useFactory: async (configService: ConfigService) => ({
+          transport: Transport.GRPC,
+          options: {
+            url: configService.get<string>('MICROSERVICE_TODO_URL'),
+            package: 'todo',
+            protoPath: join(
+              __dirname,
+              '../../../libs/common/src/proto/todo.proto',
+            ),
+          },
+        }),
+        inject: [ConfigService],
       },
     ]),
     TodoModule,

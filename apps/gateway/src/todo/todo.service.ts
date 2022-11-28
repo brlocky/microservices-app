@@ -13,11 +13,14 @@ export class TodoService implements OnModuleInit {
       this.client.getService<todo.TodoGrpcService>('TodoGrpcService');
   }
 
+  // TODO: Handle exception with interceptors convert RPC to HTTP
   async getAll(): Promise<todo.TodoResponse[]> {
     try {
-      return await firstValueFrom(this.todoGrpcService.getAllTodo({}).pipe(
-        map((response) => response.todos || [])
-      ));
+      return await firstValueFrom(
+        this.todoGrpcService
+          .getAllTodo({})
+          .pipe(map((response) => response.todos || [])),
+      );
     } catch (e) {
       throw new RpcException({ code: e.code, message: e.message });
     }
@@ -26,9 +29,9 @@ export class TodoService implements OnModuleInit {
   // TODO: Handle exception with interceptors convert RPC to HTTP
   async createTodo(data: todo.CreateTodoRequest): Promise<todo.TodoResponse> {
     try {
-      return await firstValueFrom(this.todoGrpcService.createTodo(data).pipe(
-        map((response) => response)
-      ));
+      return await firstValueFrom(
+        this.todoGrpcService.createTodo(data).pipe(map((response) => response)),
+      );
     } catch (e) {
       throw new RpcException({ code: e.code, message: e.message });
     }

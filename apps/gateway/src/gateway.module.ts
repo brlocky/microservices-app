@@ -9,6 +9,7 @@ import { TodoModule } from './todo/todo.module';
       isGlobal: true,
       validationSchema: Joi.object({
         PORT: Joi.number().required(),
+        MICROSERVICE_TODO_URL: Joi.string().required(),
       }),
       envFilePath: './apps/gateway/.env',
     }),
