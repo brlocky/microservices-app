@@ -13,7 +13,7 @@ import { TodoController } from './todo.controller';
         options: {
           url: 'todo:50051',
           package: 'todo',
-          protoPath: join(__dirname, '../../../proto/todo.proto'),
+          protoPath: join(__dirname, '../../../libs/common/src/proto/todo.proto'),
         },
       },
     ]),

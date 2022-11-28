@@ -1,35 +1,38 @@
-import { Topics } from '@app/common/topics/topic.types';
 import { Controller, Get } from '@nestjs/common';
 import { GrpcMethod, MessagePattern, Payload } from '@nestjs/microservices';
 import { TodoService } from './todo.service';
-import { KafkaMessage } from 'kafkajs';
 import { Metadata, ServerUnaryCall } from '@grpc/grpc-js';
+import { todo } from '@app/common/proto/todo';
+import { Observable } from 'rxjs';
 
 @Controller()
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
-  @Get()
-  getHello(): string {
-    return this.todoService.getHello();
-  }
+  // @MessagePattern(Topics.CREATE_TODO)
+  // consumerKafka(@Payload() message: KafkaMessage) {
+  //   console.log('mensagem recebida');
+  //   console.log(message);
 
-  @MessagePattern(Topics.CREATE_TODO)
-  consumerKafka(@Payload() message: KafkaMessage) {
-    console.log('mensagem recebida');
-    console.log(message);
+  //   return 'ok';
+  // }
 
-    return 'ok';
+  @GrpcMethod('TodoGrpcService')
+  async createTodo(
+    data: todo.CreateTodoRequest,
+    metadata: Metadata,
+    call: ServerUnaryCall<any, any>,
+  ): Promise<todo.TodoResponse> {
+    return this.todoService.create(data);
   }
 
   @GrpcMethod('TodoGrpcService')
-  createTodo(data, metadata: Metadata, call: ServerUnaryCall<any, any>) {
-    return {
-      status: 1,
-      error: null,
-      id: 1,
-      message: data.message,
-    };
+  getAllTodo(
+    data: todo.NoParameters,
+    metadata: Metadata,
+    call: ServerUnaryCall<any, any>,
+  ): Promise<todo.TodoListResponse> {
+    return this.todoService.findAll();
   }
 
 }

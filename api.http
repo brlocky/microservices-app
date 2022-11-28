@@ -6,5 +6,5 @@ POST http://localhost:3000/todo
 Content-type: application/json
 
 {
-    "message": "save todos"
+    "message": "sa4e todos"
 }

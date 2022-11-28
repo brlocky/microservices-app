@@ -12,7 +12,7 @@ async function bootstrap() {
       options: {
         url: '0.0.0.0:50051',
         package: 'todo',
-        protoPath: join(__dirname, '../../../proto/todo.proto'),
+        protoPath: join(__dirname, '../../../libs/common/src/proto/todo.proto'),
       },
     },
   );
