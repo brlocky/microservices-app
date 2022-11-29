@@ -1,8 +1,9 @@
-import { ConfigService } from '@nestjs/config';
+import { NewrelicInterceptor } from '@app/common';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { join } from 'path';
 import { TodoModule } from './todo.module';
+require('newrelic');
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
@@ -16,6 +17,8 @@ async function bootstrap() {
       },
     },
   );
+  app.useGlobalInterceptors(new NewrelicInterceptor());
+
   // app.connectMicroservice({
   //   transport: Transport.KAFKA,
   //   options: {

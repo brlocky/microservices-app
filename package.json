@@ -38,6 +38,7 @@
     "kafkajs": "^2.2.3",
     "mongoose": "^6.7.3",
     "nestjs-proto-gen-ts": "^1.0.21",
+    "newrelic": "^9.7.0",
     "pg": "^8.4.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",

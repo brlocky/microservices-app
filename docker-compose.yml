@@ -15,7 +15,7 @@ services:
     profiles: [ "app" ]
     networks:
       - network
-  
+
   auth:
     build:
       context: .
