@@ -4,13 +4,14 @@ services:
       context: .
       dockerfile: ./apps/gateway/Dockerfile
       target: development
-    command: npm run start:dev gateway
+    command: npm run start:debug gateway
     env_file:
       - ./apps/gateway/.env
     volumes:
       - .:/usr/src/app
     ports:
       - '3000:3000'
+      - '9229:9229'
     profiles: [ "app" ]
     networks:
       - network
@@ -20,7 +21,7 @@ services:
       context: .
       dockerfile: ./apps/auth/Dockerfile
       target: development
-    command: npm run start:dev auth
+    command: npm run start:debug auth
     env_file:
       - ./apps/auth/.env
     depends_on:
@@ -37,7 +38,7 @@ services:
       context: .
       dockerfile: ./apps/todo/Dockerfile
       target: development
-    command: npm run start:dev todo
+    command: npm run start:debug todo
     env_file:
       - ./apps/todo/.env
     depends_on:
