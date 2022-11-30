@@ -13,7 +13,7 @@ export class TodoService {
     return this.repo.save({...data});
   }
 
-  async findAll(): Promise<todo.TodoListResponse> {
+  async findAll(): Promise<todo.GetAllTodoResponse> {
     return {
       todos: await this.repo.find(),
     };

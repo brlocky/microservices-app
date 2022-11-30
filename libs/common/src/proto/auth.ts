@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { Metadata } from '@grpc/grpc-js';
 
 export namespace auth {
-    export interface AuthService {
+    export interface AuthGrpcService {
         register(
             data: RegisterRequest,
             metadata?: Metadata,
@@ -23,7 +23,9 @@ export namespace auth {
             ...rest: any[]
         ): Observable<ValidateResponse>;
     }
+    // Register
     export interface RegisterRequest {
+        name?: string;
         email?: string;
         password?: string;
     }
@@ -31,6 +33,7 @@ export namespace auth {
         status?: number;
         error?: string[];
     }
+    // Login
     export interface LoginRequest {
         email?: string;
         password?: string;
@@ -40,6 +43,7 @@ export namespace auth {
         error?: string[];
         token?: string;
     }
+    // Validate
     export interface ValidateRequest {
         token?: string;
     }

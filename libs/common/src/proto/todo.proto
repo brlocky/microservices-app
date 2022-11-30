@@ -3,24 +3,31 @@ syntax = "proto3";
 package todo;
 
 service TodoGrpcService {
-  rpc CreateTodo (CreateTodoRequest) returns (TodoResponse) {}
-  rpc GetAllTodo (NoParameters) returns (TodoListResponse) {}
+  rpc CreateTodo (CreateTodoRequest) returns (CreateTodoResponse) {}
+  rpc GetAllTodo (GetAllTodoRequest) returns (GetAllTodoResponse) {}
 }
 
-message NoParameters {}
+message GetAllTodoRequest {}
 
-message CreateTodoRequest {
-  string message = 1;
-  string userId = 2;
-}
-
-message TodoResponse {
+message TodoItem {
   string id = 1;
   string userId = 2;
   string message = 3;
   bool completed = 4;
 }
 
-message TodoListResponse {
-  repeated TodoResponse todos = 1;
+message CreateTodoRequest {
+  string message = 1;
+  string userId = 2;
+}
+
+message CreateTodoResponse {
+  string id = 1;
+  string userId = 2;
+  string message = 3;
+  bool completed = 4;
+}
+
+message GetAllTodoResponse {
+  repeated TodoItem todos = 1;
 }

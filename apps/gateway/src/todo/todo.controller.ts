@@ -9,12 +9,12 @@ export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
   @Get()
-  async getTodos(): Promise<todo.TodoResponse[]> {
+  async getTodos(): Promise<todo.TodoItem[]> {
     return this.todoService.getAll();
   }
 
   @Post()
-  async createTodo(@Body() data: todo.CreateTodoRequest): Promise<todo.TodoResponse> {
+  async createTodo(@Body() data: todo.CreateTodoRequest): Promise<todo.CreateTodoResponse> {
     return this.todoService.createTodo(data);
   }
 }

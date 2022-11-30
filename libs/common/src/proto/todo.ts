@@ -11,28 +11,34 @@ export namespace todo {
             data: CreateTodoRequest,
             metadata?: Metadata,
             ...rest: any[]
-        ): Observable<TodoResponse>;
+        ): Observable<CreateTodoResponse>;
         getAllTodo(
-            data: NoParameters,
+            data: GetAllTodoRequest,
             metadata?: Metadata,
             ...rest: any[]
-        ): Observable<TodoListResponse>;
+        ): Observable<GetAllTodoResponse>;
     }
     // tslint:disable-next-line:no-empty-interface
-    export interface NoParameters {
+    export interface GetAllTodoRequest {
     }
-    export interface CreateTodoRequest {
-        message?: string;
-        userId?: string;
-    }
-    export interface TodoResponse {
+    export interface TodoItem {
         id?: string;
         userId?: string;
         message?: string;
         completed?: boolean;
     }
-    export interface TodoListResponse {
-        todos?: todo.TodoResponse[];
+    export interface CreateTodoRequest {
+        message?: string;
+        userId?: string;
+    }
+    export interface CreateTodoResponse {
+        id?: string;
+        userId?: string;
+        message?: string;
+        completed?: boolean;
+    }
+    export interface GetAllTodoResponse {
+        todos?: todo.TodoItem[];
     }
 }
 

@@ -14,7 +14,7 @@ export class TodoService implements OnModuleInit {
   }
 
   // TODO: Handle exception with interceptors convert RPC to HTTP
-  async getAll(): Promise<todo.TodoResponse[]> {
+  async getAll(): Promise<todo.TodoItem[]> {
     try {
       return await firstValueFrom(
         this.todoGrpcService
@@ -27,7 +27,7 @@ export class TodoService implements OnModuleInit {
   }
 
   // TODO: Handle exception with interceptors convert RPC to HTTP
-  async createTodo(data: todo.CreateTodoRequest): Promise<todo.TodoResponse> {
+  async createTodo(data: todo.CreateTodoRequest): Promise<todo.CreateTodoResponse> {
     try {
       return await firstValueFrom(
         this.todoGrpcService.createTodo(data).pipe(map((response) => response)),

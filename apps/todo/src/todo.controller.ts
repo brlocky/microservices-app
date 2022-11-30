@@ -1,9 +1,8 @@
-import { Controller, Get } from '@nestjs/common';
-import { GrpcMethod, MessagePattern, Payload } from '@nestjs/microservices';
+import { Controller } from '@nestjs/common';
+import { GrpcMethod } from '@nestjs/microservices';
 import { TodoService } from './todo.service';
 import { Metadata, ServerUnaryCall } from '@grpc/grpc-js';
 import { todo } from '@app/common/proto/todo';
-import { Observable } from 'rxjs';
 
 @Controller()
 export class TodoController {
@@ -22,16 +21,16 @@ export class TodoController {
     data: todo.CreateTodoRequest,
     metadata: Metadata,
     call: ServerUnaryCall<any, any>,
-  ): Promise<todo.TodoResponse> {
+  ): Promise<todo.CreateTodoResponse> {
     return this.todoService.create(data);
   }
 
   @GrpcMethod('TodoGrpcService')
   getAllTodo(
-    data: todo.NoParameters,
+    data: todo.GetAllTodoResponse,
     metadata: Metadata,
     call: ServerUnaryCall<any, any>,
-  ): Promise<todo.TodoListResponse> {
+  ): Promise<todo.GetAllTodoResponse> {
     return this.todoService.findAll();
   }
 
