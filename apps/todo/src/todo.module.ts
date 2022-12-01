@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as Joi from 'joi';
-import { Todo } from './entities/todo.entity';
-import { TodoController } from './todo.controller';
-import { TodosRepository } from './todo.repository';
-import { TodoService } from './todo.service';
+import { Todo } from './models/todo.entity';
+import { TodoController } from './controllers/todo.controller';
+import { TodosRepository } from './repositories/todo.repository';
+import { TodoService } from './services/todo.service';
 
 @Module({
   imports: [
@@ -27,7 +27,7 @@ import { TodoService } from './todo.service';
       validationSchema: Joi.object({
         PORT: Joi.number().required(),
       }),
-      envFilePath: './apps/gateway/.env',
+      envFilePath: './apps/todo/.env',
     }),
     // ClientsModule.register([
     //   {

@@ -1,7 +1,9 @@
 import { todo } from '@app/common/proto/todo';
-import { Injectable } from '@nestjs/common';
-import { Todo } from './entities/todo.entity';
-import { TodosRepository } from './todo.repository';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { RpcException } from '@nestjs/microservices';
+import { NotFoundError } from 'rxjs';
+import { Todo } from '../models/todo.entity';
+import { TodosRepository } from '../repositories/todo.repository';
 
 @Injectable()
 export class TodoService {

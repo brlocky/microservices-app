@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
-import { TodoService } from './todo.service';
+import { TodoService } from '../services/todo.service';
 import { Metadata, ServerUnaryCall } from '@grpc/grpc-js';
 import { todo } from '@app/common/proto/todo';
 
