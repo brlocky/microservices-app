@@ -9,6 +9,7 @@ services:
       - ./apps/gateway/.env
     volumes:
       - .:/usr/src/app
+      - /usr/src/app/node_modules
     ports:
       - '3000:3000'
       - '9229:9229'
@@ -29,6 +30,9 @@ services:
       - mongodb
     volumes:
       - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - '9230:9229'
     profiles: [ "app" ]
     networks:
       - network
@@ -46,6 +50,9 @@ services:
       - mongodb
     volumes:
       - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - '9231:9229'
     profiles: [ "app" ]
     networks:
       - network
