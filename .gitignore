@@ -6,4 +6,3 @@ tmp/
 temp/
 dist/
 .env
-newrelic_agent.log
