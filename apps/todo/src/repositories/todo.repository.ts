@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
-import { Todo } from '../models/todo.entity';
+import { TodoEntity } from '../models/todo.entity';
 
 @Injectable()
-export class TodosRepository extends Repository<Todo> {
+export class TodoRepository extends Repository<TodoEntity> {
   constructor(private dataSource: DataSource) {
-    super(Todo, dataSource.createEntityManager());
+    super(TodoEntity, dataSource.createEntityManager());
   }
 }

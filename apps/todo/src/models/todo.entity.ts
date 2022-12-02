@@ -1,7 +1,7 @@
 import { Column, Entity, ObjectIdColumn } from 'typeorm';
 
 @Entity()
-export class Todo {
+export class TodoEntity {
   @ObjectIdColumn()
   id: string;
 

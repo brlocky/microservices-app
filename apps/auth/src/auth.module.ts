@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as Joi from 'joi';
 import { AuthController } from './controllers/auth.controller';
@@ -10,30 +10,32 @@ import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
-    JwtModule.registerAsync({
-      useFactory: () => ({
-        secret: 'console.secret',
-        signOptions: { expiresIn: '3600s' },
-      }),
-    }),
-    TypeOrmModule.forRoot({
-      type: 'mongodb',
-      url: 'mongodb://admin:password@mongodb:27017/microservice-auth',
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      authSource: 'admin',
-      entities: [UserEntity],
-      synchronize: true,
-      logging: true,
-    }),
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
-        PORT: Joi.number().required(),
-        JWT_EXPIRATION: Joi.number().required(),
-        JWT_SECRET: Joi.string().required(),
+        MONGODB_URI: Joi.string().required(),
+        MONGODB_AUTH_SOURCE: Joi.string().required(),
+        JWT_ACCESS_SECRET: Joi.string().required(),
+        JWT_ACCESS_EXPIRATION: Joi.string().required(),
+        JWT_REFRESH_SECRET: Joi.string().required(),
+        JWT_REFRESH_EXPIRATION: Joi.string().required(),
       }),
       envFilePath: './apps/auth/.env',
+    }),
+    JwtModule.register({}),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (config: ConfigService) => ({
+        type: 'mongodb',
+        url: config.get<string>('MONGODB_URI'),
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        authSource: config.get<string>('MONGODB_AUTH_SOURCE'),
+        entities: [UserEntity],
+        synchronize: false,
+        logging: true,
+      }),
+      inject: [ConfigService],
     }),
     // ClientsModule.register([
     //   {
@@ -48,9 +50,6 @@ import { JwtModule } from '@nestjs/jwt';
     // ]),
   ],
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    UserRepository,
-  ],
+  providers: [AuthService, UserRepository],
 })
 export class AuthModule {}
