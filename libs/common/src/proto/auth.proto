@@ -8,6 +8,12 @@ service AuthGrpcService {
   rpc Validate (ValidateRequest) returns (ValidateResponse) {}
 }
 
+message User {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+}
+
 // Register
 message RegisterRequest {
   string name = 1;
@@ -16,8 +22,7 @@ message RegisterRequest {
 }
 
 message RegisterResponse {
-  int32 status = 1;
-  repeated string error = 2;
+  string token = 1;
 }
 
 // Login
@@ -27,9 +32,7 @@ message LoginRequest {
 }
 
 message LoginResponse {
-  int32 status = 1;
-  repeated string error = 2;
-  string token = 3;
+  string token = 1;
 }
 
 // Validate

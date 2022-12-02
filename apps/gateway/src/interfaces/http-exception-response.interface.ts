@@ -6,5 +6,5 @@ export interface HttpExceptionResponse {
 export interface CustomHttpExceptionResponse extends HttpExceptionResponse {
   path: string;
   method: string;
-  timeStamp: Date;
+  timestamp: Date;
 }

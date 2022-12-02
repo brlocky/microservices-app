@@ -4,7 +4,8 @@ import * as Joi from 'joi';
 import { AuthModule } from './modules/auth/auth.module';
 import { TodoModule } from './modules/todo/todo.module';
 import { APP_FILTER } from '@nestjs/core';
-import { AllExceptionsFilter } from './filters/all-exceptions.filter';
+import { AllExceptionsFilter } from './filters';
+import { ErrorStatusMapper } from './mapper/error-status.mapper';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AllExceptionsFilter } from './filters/all-exceptions.filter';
   ],
   controllers: [],
   providers: [
+    ErrorStatusMapper,
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,

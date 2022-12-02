@@ -23,6 +23,11 @@ export namespace auth {
             ...rest: any[]
         ): Observable<ValidateResponse>;
     }
+    export interface User {
+        id?: string;
+        name?: string;
+        email?: string;
+    }
     // Register
     export interface RegisterRequest {
         name?: string;
@@ -30,8 +35,7 @@ export namespace auth {
         password?: string;
     }
     export interface RegisterResponse {
-        status?: number;
-        error?: string[];
+        token?: string;
     }
     // Login
     export interface LoginRequest {
@@ -39,8 +43,6 @@ export namespace auth {
         password?: string;
     }
     export interface LoginResponse {
-        status?: number;
-        error?: string[];
         token?: string;
     }
     // Validate
