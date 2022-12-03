@@ -1,44 +1,35 @@
 import { auth } from '@app/common/proto/auth';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { BaseRpcExceptionFilter, RpcException } from '@nestjs/microservices';
+import { RpcException } from '@nestjs/microservices';
 import * as bcrypt from 'bcrypt';
 import { UserEntity } from '../models/user.entity';
 import { UserRepository } from '../repositories/user.repository';
 import { status } from '@grpc/grpc-js';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userRepository: UserRepository,
     private jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
-  private hashPassword(password: string): Promise<string> {
-    return bcrypt.hash(password, 12);
-  }
-
-  private async doesUserExist(email: string): Promise<boolean> {
-    const user = await this.userRepository.findOne({
-      where: { email },
-    });
-
-    return !!user;
-  }
-
-  async createAccount(data: auth.RegisterRequest): Promise<string> {
-    const user = await this.registerAccount(data);
-    return this.generateToken(user);
-  }
-
-  async registerAccount(user: auth.RegisterRequest): Promise<UserEntity> {
-    const { name, email, password } = user;
+  /**
+   * Create new User Account
+   * @param data
+   * @returns RegisterResponse
+   */
+  async createAccount(
+    payload: auth.RegisterRequest,
+  ): Promise<auth.RegisterResponse> {
+    const { name, email, password } = payload;
 
     if (await this.doesUserExist(email)) {
       throw new RpcException({
         code: status.ALREADY_EXISTS,
-        message: 'Email is already registered'
+        message: 'Email is already registered',
       });
     }
 
@@ -49,38 +40,82 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    return userEntity;
+    return this.generateToken(userEntity);
   }
 
-  async validateUser(email: string, password: string): Promise<UserEntity> {
+  /**
+   * Login user with email and password
+   * @param payload
+   * @returns
+   */
+  async login(payload: auth.LoginRequest): Promise<auth.LoginResponse> {
+    const { email, password } = payload;
+
     const userEntity = await this.userRepository.findOne({ where: { email } });
     if (!userEntity) {
-      throw new HttpException(
-        { status: HttpStatus.FORBIDDEN, error: 'Invalid Credentials' },
-        HttpStatus.FORBIDDEN,
-      );
+      throw new RpcException({
+        code: status.UNAUTHENTICATED,
+        message: 'Invalid Credentials',
+      });
     }
 
     const passwordMatch = await bcrypt.compare(password, userEntity.password);
     if (!passwordMatch) {
-      throw new HttpException(
-        { status: HttpStatus.FORBIDDEN, error: 'Invalid Credentials' },
-        HttpStatus.FORBIDDEN,
-      );
+      throw new RpcException({
+        code: status.UNAUTHENTICATED,
+        message: 'Invalid Credentials',
+      });
     }
-
-    return userEntity;
-  }
-
-  async login(user: auth.LoginRequest): Promise<string> {
-    const { email, password } = user;
-    const userEntity = await this.validateUser(email, password);
 
     return this.generateToken(userEntity);
   }
 
-  async generateToken(userEntity: UserEntity): Promise<string> {
+  /**
+   * Helper function to hash password
+   * @param password
+   * @returns hashed password
+   */
+  hashPassword(password: string): Promise<string> {
+    return bcrypt.hash(password, 12);
+  }
+
+  /**
+   * Helper function to verify is email is already registered
+   * @param email
+   * @returns if user exits
+   */
+  async doesUserExist(email: string): Promise<boolean> {
+    const user = await this.userRepository.findOne({
+      where: { email },
+    });
+
+    return !!user;
+  }
+
+  /**
+   * Generate Access and Refresh tokens
+   * @param userEntity
+   * @returns
+   */
+  async generateToken(userEntity: UserEntity): Promise<auth.RegisterResponse> {
     delete userEntity.password;
-    return this.jwtService.signAsync({ userEntity });
+    const accessToken = await this.jwtService.signAsync(
+      { userEntity },
+      {
+        secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
+        expiresIn: this.configService.get<string>('JWT_ACCESS_EXPIRATION'),
+      },
+    );
+    const refreshToken = await this.jwtService.signAsync(
+      { userEntity },
+      {
+        secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
+        expiresIn: this.configService.get<string>('JWT_REFRESH_EXPIRATION'),
+      },
+    );
+    return {
+      accessToken,
+      refreshToken,
+    };
   }
 }

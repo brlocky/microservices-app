@@ -4,8 +4,6 @@ import { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { AllExceptionsFilter } from '../../filters';
-import { APP_FILTER } from '@nestjs/core';
 
 @Module({
   imports: [

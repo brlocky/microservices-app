@@ -17,11 +17,11 @@ export namespace auth {
             metadata?: Metadata,
             ...rest: any[]
         ): Observable<LoginResponse>;
-        validate(
-            data: ValidateRequest,
+        refreshToken(
+            data: RefreshTokenRequest,
             metadata?: Metadata,
             ...rest: any[]
-        ): Observable<ValidateResponse>;
+        ): Observable<RefreshTokenResponse>;
     }
     export interface User {
         id?: string;
@@ -35,7 +35,8 @@ export namespace auth {
         password?: string;
     }
     export interface RegisterResponse {
-        token?: string;
+        accessToken?: string;
+        refreshToken?: string;
     }
     // Login
     export interface LoginRequest {
@@ -43,16 +44,16 @@ export namespace auth {
         password?: string;
     }
     export interface LoginResponse {
-        token?: string;
+        accessToken?: string;
+        refreshToken?: string;
     }
     // Validate
-    export interface ValidateRequest {
+    export interface RefreshTokenRequest {
         token?: string;
     }
-    export interface ValidateResponse {
-        status?: number;
-        error?: string[];
-        userId?: number;
+    export interface RefreshTokenResponse {
+        accessToken?: string;
+        refreshToken?: string;
     }
 }
 

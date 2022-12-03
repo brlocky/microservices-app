@@ -19,26 +19,20 @@ export class AuthController {
 
   @GrpcMethod('AuthGrpcService')
   async register(
-    data: auth.RegisterRequest,
+    payload: auth.RegisterRequest,
     metadata: Metadata,
     call: ServerUnaryCall<any, any>,
   ): Promise<auth.RegisterResponse> {
-    const token = await this.authService.createAccount(data);
-    return {
-      token
-    };
+    return this.authService.createAccount(payload);
   }
 
   @GrpcMethod('AuthGrpcService')
   async login(
-    data: auth.LoginRequest,
+    payload: auth.LoginRequest,
     metadata: Metadata,
     call: ServerUnaryCall<any, any>,
   ): Promise<auth.LoginResponse> {
-    const token = await this.authService.login(data);
-    return {
-      token,
-    };
+    return this.authService.login(payload);
   }
 
   // @GrpcMethod('AuthGrpcService')

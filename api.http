@@ -15,7 +15,7 @@ Content-type: application/json
 
 {
     "name": "Joao",
-    "email": "email8@gmail.com",
+    "email": "emaildx@gmail.com",
     "password": "password"
 }
 
@@ -25,5 +25,5 @@ Content-type: application/json
 
 {
     "email": "email@gmail.com",
-    "password": "password"
+    "password": "passfword"
 }

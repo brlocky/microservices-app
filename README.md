@@ -45,6 +45,14 @@ $ docker-compose --profile app up
 
 ```
 
+## Generate ProtoBuf typescript interfaces
+
+```bash
+
+$ npm run proto:build
+
+```
+
 ## Test
 
 ```bash
