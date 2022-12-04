@@ -15,7 +15,7 @@ Content-type: application/json
 
 {
     "name": "Joao",
-    "email": "emailxxxxdx@gmail.com",
+    "email": "exmail@gmail.com",
     "password": "password"
 }
 
@@ -42,7 +42,7 @@ Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW50aXR5Ijp7
 
 POST http://localhost:3000/auth/test
 Content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW50aXR5Ijp7Im5hbWUiOiJKb2FvIiwiZW1haWwiOiJlbWFpbHh4eHhkeEBnbWFpbC5jb20iLCJfaWQiOiI2MzhkMTM1ZWMzYzU2MjBhYjQwOTAyMDEifSwiaWF0IjoxNjcwMTg5OTE5LCJleHAiOjE2NzAxOTM1MTl9.26rg7DPo0OGkR8YCiRtDvJFMs9Wz_A6NtepzM-vFs_U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOGQwOTA0MTk5MTk0MDZkZDBmMTM4ZiIsImlhdCI6MTY3MDE5MzkxOSwiZXhwIjoxNjcwMTk3NTE5fQ.L_2Y7LT7SBRsdTQ08r_QXaf4bMofHQ809-hMFbVllEM
 
 {
 }

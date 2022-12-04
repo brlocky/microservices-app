@@ -4,11 +4,8 @@ import {
   Catch,
   ExceptionFilter,
   HttpException,
-  HttpStatus,
   UnauthorizedException,
 } from '@nestjs/common';
-import { RpcException } from '@nestjs/microservices';
-import { Response } from 'express';
 import { throwError } from 'rxjs';
 
 @Catch(HttpException)

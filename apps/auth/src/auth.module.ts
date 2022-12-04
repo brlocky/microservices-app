@@ -14,6 +14,7 @@ import {
 import { ExtractJwtHelper } from './helpers';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionsFilter } from './filters/http-exceptions.filter';
+import { LocalStrategy } from './guards/local-auth.stategy';
 
 @Module({
   imports: [
@@ -63,6 +64,7 @@ import { HttpExceptionsFilter } from './filters/http-exceptions.filter';
     ExtractJwtHelper,
     JWTRefreshTokenGuard,
     JwtAuthStrategy,
+    LocalStrategy,
     {
       provide: APP_FILTER,
       useClass: HttpExceptionsFilter,

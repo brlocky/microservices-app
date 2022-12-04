@@ -1,13 +1,17 @@
 import { auth } from '@app/common/proto/auth';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { RpcException } from '@nestjs/microservices';
 import * as bcrypt from 'bcrypt';
 import { UserEntity } from '../models/user.entity';
 import { UserRepository } from '../repositories/user.repository';
-import { status } from '@grpc/grpc-js';
 import { ConfigService } from '@nestjs/config';
 import { ObjectID } from 'mongodb';
+import { RpcAlreadyExistsException } from '../exceptions';
+
+interface JwtPayload {
+  id: string;
+  name: string;
+}
 
 @Injectable()
 export class AuthService {
@@ -19,7 +23,7 @@ export class AuthService {
 
   /**
    * Create new User Account
-   * @param data
+   * @param payload
    * @returns RegisterResponse
    */
   async createAccount(
@@ -28,10 +32,7 @@ export class AuthService {
     const { name, email, password } = payload;
 
     if (await this.doesUserExist(email)) {
-      throw new RpcException({
-        code: status.ALREADY_EXISTS,
-        message: 'Email is already registered',
-      });
+      throw new RpcAlreadyExistsException()
     }
 
     const hashedPassword = await this.hashPassword(password);
@@ -45,30 +46,23 @@ export class AuthService {
   }
 
   /**
-   * Login user with email and password
-   * @param payload
-   * @returns
+   * Validate user with email and password
+   * @param email
+   * @param password
+   * @returns User
    */
-  async login(payload: auth.LoginRequest): Promise<auth.LoginResponse> {
-    const { email, password } = payload;
-
+  async validateUser(email: string, password: string): Promise<auth.User> {
     const userEntity = await this.userRepository.findOne({ where: { email } });
     if (!userEntity) {
-      throw new RpcException({
-        code: status.UNAUTHENTICATED,
-        message: 'Invalid Credentials',
-      });
+      return null;
     }
 
     const passwordMatch = await bcrypt.compare(password, userEntity.password);
     if (!passwordMatch) {
-      throw new RpcException({
-        code: status.UNAUTHENTICATED,
-        message: 'Invalid Credentials',
-      });
+      return null;
     }
 
-    return this.generateToken(userEntity);
+    return userEntity;
   }
 
   /**
@@ -109,16 +103,20 @@ export class AuthService {
    * @returns
    */
   async generateToken(userEntity: UserEntity): Promise<auth.RegisterResponse> {
-    delete userEntity.password;
+    const jwtPayload: JwtPayload = {
+      id: userEntity._id,
+      name: userEntity.name,
+    };
+
     const accessToken = await this.jwtService.signAsync(
-      { userEntity },
+      jwtPayload,
       {
         secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
         expiresIn: this.configService.get<string>('JWT_ACCESS_EXPIRATION'),
       },
     );
     const refreshToken = await this.jwtService.signAsync(
-      { userEntity },
+      jwtPayload,
       {
         secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
         expiresIn: this.configService.get<string>('JWT_REFRESH_EXPIRATION'),
