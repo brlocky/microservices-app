@@ -1,16 +1,10 @@
-import { Status } from '@grpc/grpc-js/build/src/constants';
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { RpcException } from '@nestjs/microservices';
 import { PassportStrategy } from '@nestjs/passport';
-import { Strategy, VerifiedCallback } from 'passport-jwt';
+import { Strategy } from 'passport-jwt';
+import { RpcNotFoundException } from '../exceptions';
 import { ExtractJwtHelper } from '../helpers';
 import { AuthService } from '../services/auth.service';
-
-type JwtPayload = {
-  sub: string;
-  username: string;
-};
 
 @Injectable()
 export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt') {
@@ -26,13 +20,9 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate(payload: any) {
-    const user = await this.authService.getUser(payload.userEntity._id);
-    // If no user return unauthorized response
+    const user = await this.authService.getUser(payload.id);
     if (!user) {
-      throw new RpcException({
-        code: Status.UNAUTHENTICATED,
-        message: 'User not available',
-      });
+      throw new RpcNotFoundException();
     }
 
     return user;
