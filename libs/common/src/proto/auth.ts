@@ -22,6 +22,11 @@ export namespace auth {
             metadata?: Metadata,
             ...rest: any[]
         ): Observable<RefreshTokenResponse>;
+        validateToken(
+            data: ValidateTokenRequest,
+            metadata?: Metadata,
+            ...rest: any[]
+        ): Observable<ValidateTokenResponse>;
     }
     export interface User {
         id?: string;
@@ -47,13 +52,20 @@ export namespace auth {
         accessToken?: string;
         refreshToken?: string;
     }
-    // Validate
+    // Refresh
     export interface RefreshTokenRequest {
         token?: string;
     }
     export interface RefreshTokenResponse {
         accessToken?: string;
         refreshToken?: string;
+    }
+    // Validate
+    export interface ValidateTokenRequest {
+        token?: string;
+    }
+    export interface ValidateTokenResponse {
+        isValid?: boolean;
     }
 }
 

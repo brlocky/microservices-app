@@ -7,6 +7,7 @@ import { UserEntity } from '../models/user.entity';
 import { UserRepository } from '../repositories/user.repository';
 import { status } from '@grpc/grpc-js';
 import { ConfigService } from '@nestjs/config';
+import { ObjectID } from 'mongodb';
 
 @Injectable()
 export class AuthService {
@@ -90,6 +91,16 @@ export class AuthService {
     });
 
     return !!user;
+  }
+
+  /**
+   * Helper function to get user by ID
+   * @param id
+   * @returns user
+   */
+  async getUser(id: string): Promise<UserEntity | null> {
+    const _id = new ObjectID(id);
+    return this.userRepository.findOneBy({ _id });
   }
 
   /**

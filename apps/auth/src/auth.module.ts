@@ -7,6 +7,13 @@ import { AuthService } from './services/auth.service';
 import { UserRepository } from './repositories/user.repository';
 import { UserEntity } from './models/user.entity';
 import { JwtModule } from '@nestjs/jwt';
+import {
+  JwtAuthStrategy,
+  JWTRefreshTokenGuard,
+} from './guards';
+import { ExtractJwtHelper } from './helpers';
+import { APP_FILTER } from '@nestjs/core';
+import { HttpExceptionsFilter } from './filters/http-exceptions.filter';
 
 @Module({
   imports: [
@@ -50,6 +57,16 @@ import { JwtModule } from '@nestjs/jwt';
     // ]),
   ],
   controllers: [AuthController],
-  providers: [AuthService, UserRepository],
+  providers: [
+    AuthService,
+    UserRepository,
+    ExtractJwtHelper,
+    JWTRefreshTokenGuard,
+    JwtAuthStrategy,
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionsFilter,
+    },
+  ],
 })
 export class AuthModule {}

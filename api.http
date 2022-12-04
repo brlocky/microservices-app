@@ -15,7 +15,7 @@ Content-type: application/json
 
 {
     "name": "Joao",
-    "email": "emaildx@gmail.com",
+    "email": "emailxxxxdx@gmail.com",
     "password": "password"
 }
 
@@ -25,5 +25,24 @@ Content-type: application/json
 
 {
     "email": "email@gmail.com",
-    "password": "passfword"
+    "password": "password"
+}
+
+
+### Test auth guard
+
+POST http://localhost:3000/test
+Content-type: application/json
+Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW50aXR5Ijp7ImlkIjoiNjM4ODE3ZGNlNzMxMjEwNDEzNWUyNDFkIiwibmFtZSI6IkpvYW8iLCJlbWFpbCI6ImVtYWlsQGdtYWlsLmNvbSJ9LCJpYXQiOjE2NzAwMzE2MzAsImV4cCI6MTY3MDAzMTYzM30.Vq-VcnBXBSYCaSslnGGzQYPT1Ce-mpmOQdrwxc1ZaHY"
+
+{
+}
+
+### Test auth guard
+
+POST http://localhost:3000/auth/test
+Content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW50aXR5Ijp7Im5hbWUiOiJKb2FvIiwiZW1haWwiOiJlbWFpbHh4eHhkeEBnbWFpbC5jb20iLCJfaWQiOiI2MzhkMTM1ZWMzYzU2MjBhYjQwOTAyMDEifSwiaWF0IjoxNjcwMTg5OTE5LCJleHAiOjE2NzAxOTM1MTl9.26rg7DPo0OGkR8YCiRtDvJFMs9Wz_A6NtepzM-vFs_U
+
+{
 }

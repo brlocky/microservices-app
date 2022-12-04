@@ -5,7 +5,6 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { RpcException } from '@nestjs/microservices';
 import { Response, Request } from 'express';
 import {
   CustomHttpExceptionResponse,

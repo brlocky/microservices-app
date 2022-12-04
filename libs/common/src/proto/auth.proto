@@ -6,6 +6,7 @@ service AuthGrpcService {
   rpc Register (RegisterRequest) returns (RegisterResponse) {}
   rpc Login (LoginRequest) returns (LoginResponse) {}
   rpc RefreshToken (RefreshTokenRequest) returns (RefreshTokenResponse) {}
+  rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse) {}
 }
 
 message User {
@@ -37,7 +38,7 @@ message LoginResponse {
   string refreshToken = 2;
 }
 
-// Validate
+// Refresh
 message RefreshTokenRequest {
   string token = 1;
 }
@@ -45,4 +46,13 @@ message RefreshTokenRequest {
 message RefreshTokenResponse {
   string accessToken = 1;
   string refreshToken = 2;
+}
+
+// Validate
+message ValidateTokenRequest {
+  string token = 1;
+}
+
+message ValidateTokenResponse {
+  bool isValid = 1;
 }

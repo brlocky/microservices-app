@@ -1,9 +1,10 @@
-import { Controller } from '@nestjs/common';
+import { Controller, UseGuards, UsePipes } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import { AuthService } from '../services/auth.service';
 import { Metadata, ServerUnaryCall } from '@grpc/grpc-js';
 import { auth } from '@app/common/proto/auth';
 import { User } from '../models/user.class';
+import { JwtAuthGuard } from '../guards';
 
 @Controller()
 export class AuthController {
@@ -35,12 +36,15 @@ export class AuthController {
     return this.authService.login(payload);
   }
 
-  // @GrpcMethod('AuthGrpcService')
-  // getAllAuth(
-  //   data: auth.GetAllAuthResponse,
-  //   metadata: Metadata,
-  //   call: ServerUnaryCall<any, any>,
-  // ): Promise<auth.GetAllAuthResponse> {
-  //   return this.authService.findAll();
-  // }
+  @UseGuards(JwtAuthGuard)
+  @GrpcMethod('AuthGrpcService')
+  async validateToken(
+    payload: auth.ValidateTokenRequest,
+    metadata: Metadata,
+    call: ServerUnaryCall<any, any>,
+  ): Promise<auth.ValidateTokenResponse> {
+    return {
+      isValid: true
+    };
+  }
 }

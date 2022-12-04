@@ -4,6 +4,7 @@ import { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TodoController } from './todo.controller';
 import { TodoService } from './todo.service';
+import { AuthModule } from 'apps/auth/src/auth.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { TodoService } from './todo.service';
       },
     ]),
     TodoModule,
+    AuthModule,
   ],
   controllers: [TodoController],
   providers: [TodoService],

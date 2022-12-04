@@ -1,11 +1,16 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
-import { AuthModule } from './modules/auth/auth.module';
 import { TodoModule } from './modules/todo/todo.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './filters';
 import { ErrorStatusMapper } from './mapper/error-status.mapper';
+import { GatewayController } from './gateway.controller';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { join } from 'path';
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
+import { AuthGuard } from './guards';
 
 @Module({
   imports: [
@@ -18,16 +23,36 @@ import { ErrorStatusMapper } from './mapper/error-status.mapper';
       }),
       envFilePath: './apps/gateway/.env',
     }),
-    AuthModule,
+    ClientsModule.registerAsync([
+      {
+        name: 'AUTH_PACKAGE',
+        imports: [ConfigModule],
+        useFactory: async (configService: ConfigService) => ({
+          transport: Transport.GRPC,
+          options: {
+            url: configService.get<string>('MICROSERVICE_AUTH_URL'),
+            package: 'auth',
+            protoPath: join(
+              __dirname,
+              '../../../libs/common/src/proto/auth.proto',
+            ),
+          },
+        }),
+        inject: [ConfigService],
+      },
+    ]),
     TodoModule,
   ],
-  controllers: [],
+  controllers: [GatewayController, AuthController],
   providers: [
+    AuthGuard,
+    AuthService,
     ErrorStatusMapper,
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
     },
   ],
+  exports: [AuthService]
 })
 export class GatewayModule {}
