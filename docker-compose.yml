@@ -17,14 +17,14 @@ services:
     networks:
       - network
 
-  auth:
+  user:
     build:
       context: .
-      dockerfile: ./apps/auth/Dockerfile
+      dockerfile: ./apps/user/Dockerfile
       target: development
-    command: npm run start:debug auth
+    command: npm run start:debug user
     env_file:
-      - ./apps/auth/.env
+      - ./apps/user/.env
     depends_on:
       - kafka
       - mongodb
