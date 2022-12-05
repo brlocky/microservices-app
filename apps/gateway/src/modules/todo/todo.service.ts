@@ -10,7 +10,8 @@ export class TodoService implements OnModuleInit {
 
   onModuleInit() {
     this.todoGrpcService =
-      this.client.getService<todo.TodoGrpcService>('TodoGrpcService');
+      this.
+      client.getService<todo.TodoGrpcService>('TodoGrpcService');
   }
 
   // TODO: Handle exception with interceptors convert RPC to HTTP

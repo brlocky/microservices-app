@@ -8,30 +8,21 @@ import { todo } from '@app/common/proto/todo';
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
-  // @MessagePattern(Topics.CREATE_TODO)
-  // consumerKafka(@Payload() message: KafkaMessage) {
-  //   console.log('mensagem recebida');
-  //   console.log(message);
-
-  //   return 'ok';
-  // }
-
   @GrpcMethod('TodoGrpcService')
   async createTodo(
-    data: todo.CreateTodoRequest,
+    payload: todo.CreateTodoRequest,
     metadata: Metadata,
     call: ServerUnaryCall<any, any>,
   ): Promise<todo.CreateTodoResponse> {
-    return this.todoService.create(data);
+    return this.todoService.create(payload);
   }
 
   @GrpcMethod('TodoGrpcService')
   getAllTodo(
-    data: todo.GetAllTodoResponse,
+    payload: todo.GetAllTodoResponse,
     metadata: Metadata,
     call: ServerUnaryCall<any, any>,
   ): Promise<todo.GetAllTodoResponse> {
-    return this.todoService.findAll();
+    return this.todoService.findAll(payload);
   }
-
 }

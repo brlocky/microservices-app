@@ -4,6 +4,7 @@ GET http://localhost:3000/todo
 ### Create todo
 POST http://localhost:3000/todo
 Content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOGQwOTA0MTk5MTk0MDZkZDBmMTM4ZiIsIm5hbWUiOiJKb2FvIiwiaWF0IjoxNjcwMjA2MzU2LCJleHAiOjE2NzAyMDk5NTZ9.4QKl3pTTPOcAPNciehJRZDBMzDTDX5hu_tMz5wnrA1U
 
 {
     "message": "sa4e todos"
@@ -15,7 +16,7 @@ Content-type: application/json
 
 {
     "name": "Joao",
-    "email": "exmail@gmail.com",
+    "email": "exrmail@gmail.com",
     "password": "password"
 }
 
@@ -29,20 +30,12 @@ Content-type: application/json
 }
 
 
-### Test auth guard
-
-POST http://localhost:3000/test
-Content-type: application/json
-Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW50aXR5Ijp7ImlkIjoiNjM4ODE3ZGNlNzMxMjEwNDEzNWUyNDFkIiwibmFtZSI6IkpvYW8iLCJlbWFpbCI6ImVtYWlsQGdtYWlsLmNvbSJ9LCJpYXQiOjE2NzAwMzE2MzAsImV4cCI6MTY3MDAzMTYzM30.Vq-VcnBXBSYCaSslnGGzQYPT1Ce-mpmOQdrwxc1ZaHY"
-
-{
-}
 
 ### Test auth guard
 
 POST http://localhost:3000/auth/test
 Content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOGQwOTA0MTk5MTk0MDZkZDBmMTM4ZiIsImlhdCI6MTY3MDE5MzkxOSwiZXhwIjoxNjcwMTk3NTE5fQ.L_2Y7LT7SBRsdTQ08r_QXaf4bMofHQ809-hMFbVllEM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOGQwOTA0MTk5MTk0MDZkZDBmMTM4ZiIsIm5hbWUiOiJKb2FvIiwiaWF0IjoxNjcwMjA2MzU2LCJleHAiOjE2NzAyMDk5NTZ9.4QKl3pTTPOcAPNciehJRZDBMzDTDX5hu_tMz5wnrA1U
 
 {
 }

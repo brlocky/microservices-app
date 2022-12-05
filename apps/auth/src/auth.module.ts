@@ -10,11 +10,11 @@ import { JwtModule } from '@nestjs/jwt';
 import {
   JwtAuthStrategy,
   JWTRefreshTokenGuard,
+  LocalStrategy,
 } from './guards';
 import { ExtractJwtHelper } from './helpers';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionsFilter } from './filters/http-exceptions.filter';
-import { LocalStrategy } from './guards/local-auth.stategy';
 
 @Module({
   imports: [
