@@ -21,7 +21,6 @@ import { AllExceptionsFilter } from './all-exceptions.filter';
     AuthModule,
     TodoModule,
   ],
-  controllers: [],
   providers: [
     ErrorStatusMapper,
     {
@@ -29,6 +28,5 @@ import { AllExceptionsFilter } from './all-exceptions.filter';
       useClass: AllExceptionsFilter,
     },
   ],
-  exports: [],
 })
 export class GatewayModule {}
