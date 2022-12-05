@@ -4,7 +4,7 @@ GET http://localhost:3000/todo
 ### Create todo
 POST http://localhost:3000/todo
 Content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOGQwOTA0MTk5MTk0MDZkZDBmMTM4ZiIsIm5hbWUiOiJKb2FvIiwiaWF0IjoxNjcwMjA2MzU2LCJleHAiOjE2NzAyMDk5NTZ9.4QKl3pTTPOcAPNciehJRZDBMzDTDX5hu_tMz5wnrA1U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOGQ2OTYyMmJmYTE2MDA1OTk1MWI0MyIsIm5hbWUiOiJKb2FvIiwiaWF0IjoxNjcwMjE1MTE1LCJleHAiOjE2NzAyMTg3MTV9.9x6YbyCjbPVJakfS64XRyzvjJTLWkvaJaKK6Y5HsJ1o
 
 {
     "message": "sa4e todos"
@@ -16,7 +16,7 @@ Content-type: application/json
 
 {
     "name": "Joao",
-    "email": "exrmail@gmail.com",
+    "email": "email@gmail.com",
     "password": "password"
 }
 
@@ -35,7 +35,7 @@ Content-type: application/json
 
 POST http://localhost:3000/auth/test
 Content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOGQwOTA0MTk5MTk0MDZkZDBmMTM4ZiIsIm5hbWUiOiJKb2FvIiwiaWF0IjoxNjcwMjA2MzU2LCJleHAiOjE2NzAyMDk5NTZ9.4QKl3pTTPOcAPNciehJRZDBMzDTDX5hu_tMz5wnrA1U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NzAyMTQ1MDksImV4cCI6MTY3MDIxODEwOX0.Si80IQpzVHHXvngXd6ru3Y7Y-YD9o_sCd363tzgVyhM
 
 {
 }
