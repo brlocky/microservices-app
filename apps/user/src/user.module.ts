@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import * as Joi from 'joi';
 import { UserEntity } from './schema/user.entity';
 import { UserController } from './user.controller';
+import { UserRepository } from './user.repository';
 import { UserService } from './user.service';
 
 @Module({
@@ -34,6 +35,7 @@ import { UserService } from './user.service';
   ],
   controllers: [UserController],
   providers: [
+    UserRepository,
     UserService,
   ],
 })

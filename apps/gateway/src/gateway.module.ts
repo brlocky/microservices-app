@@ -6,7 +6,11 @@ import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './filters';
 import { ErrorStatusMapper } from './mapper/error-status.mapper';
 import { AuthGrpcModule } from './modules/auth-grpc/auth-grpc.module';
-import { AuthModule } from './modules/auth/auth.module';
+import { AuthController } from './controllers/auth.controller';
+import { PassportModule } from '@nestjs/passport';
+import { AuthService } from './services/auth.service';
+import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy, LocalStrategy } from './guards';
 
 @Module({
   imports: [
@@ -15,22 +19,26 @@ import { AuthModule } from './modules/auth/auth.module';
       validationSchema: Joi.object({
         PORT: Joi.number().required(),
         MICROSERVICE_TODO_URL: Joi.string().required(),
-        MICROSERVICE_AUTH_URL: Joi.string().required(),
+        MICROSERVICE_USER_URL: Joi.string().required(),
       }),
       envFilePath: './apps/gateway/.env',
     }),
+    PassportModule,
+    JwtModule,
     AuthGrpcModule,
     TodoModule,
-    AuthModule,
   ],
-  controllers: [],
+  controllers: [AuthController],
   providers: [
     ErrorStatusMapper,
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
     },
+    LocalStrategy,
+    JwtStrategy,
+    AuthService
   ],
-  exports: []
+  exports: [],
 })
 export class GatewayModule {}

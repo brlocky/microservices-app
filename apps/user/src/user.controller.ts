@@ -17,7 +17,7 @@ export class UserController {
     return this.userService.register(payload);
   }
 
-  @GrpcMethod('AuthGrpcService')
+  @GrpcMethod('UserGrpcService')
   async login(
     payload: user.LoginRequest,
     metadata: Metadata,

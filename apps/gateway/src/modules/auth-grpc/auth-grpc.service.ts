@@ -1,37 +1,29 @@
-import { auth } from '@app/common/proto/auth';
+import { user } from '@app/common/proto/user';
 import { Inject, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { firstValueFrom, map } from 'rxjs';
 
-export class AuthGRpcService implements OnModuleInit {
-  private authGrpcService: auth.AuthGrpcService;
+export class AuthGrpcService implements OnModuleInit {
+  private service: user.UserGrpcService;
 
-  constructor(@Inject('AUTH_PACKAGE') private client: ClientGrpc) {}
+  constructor(@Inject('USER_PACKAGE') private client: ClientGrpc) {}
 
   onModuleInit() {
-    this.authGrpcService =
-      this.client.getService<auth.AuthGrpcService>('AuthGrpcService');
+    this.service =
+      this.client.getService<user.UserGrpcService>('UserGrpcService');
   }
 
   async registerUser(
-    payload: auth.RegisterRequest,
-  ): Promise<auth.RegisterResponse> {
+    payload: user.RegisterRequest,
+  ): Promise<user.RegisterResponse> {
     return await firstValueFrom(
-      this.authGrpcService.register(payload).pipe(map((response) => response)),
+      this.service.register(payload).pipe(map((response) => response)),
     );
   }
 
-  async loginUser(payload: auth.LoginRequest): Promise<auth.LoginResponse> {
+  async loginUser(payload: user.LoginRequest): Promise<user.LoginResponse> {
     return await firstValueFrom(
-      this.authGrpcService.login(payload).pipe(map((response) => response)),
-    );
-  }
-
-  async validateToken(payload: string): Promise<auth.ValidateTokenResponse> {
-    return await firstValueFrom(
-      this.authGrpcService
-        .validateToken({ token: payload })
-        .pipe(map((response) => response)),
+      this.service.login(payload).pipe(map((response) => response)),
     );
   }
 }

@@ -53,7 +53,10 @@ export class UserService {
     }
 
     return {
-      user: userEntity,
+      user: {
+        ...userEntity,
+        id: userEntity._id,
+      },
     };
   }
 

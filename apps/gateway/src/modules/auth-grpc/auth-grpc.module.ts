@@ -3,7 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { join } from 'path';
-import { AuthGRpcService } from './auth-grpc.service';
+import { AuthGrpcService } from './auth-grpc.service';
 
 @Module({
   imports: [
@@ -12,22 +12,22 @@ import { AuthGRpcService } from './auth-grpc.service';
       validationSchema: Joi.object({
         PORT: Joi.number().required(),
         MICROSERVICE_TODO_URL: Joi.string().required(),
-        MICROSERVICE_AUTH_URL: Joi.string().required(),
+        MICROSERVICE_USER_URL: Joi.string().required(),
       }),
       envFilePath: './apps/gateway/.env',
     }),
     ClientsModule.registerAsync([
       {
-        name: 'AUTH_PACKAGE',
+        name: 'USER_PACKAGE',
         imports: [ConfigModule],
         useFactory: async (configService: ConfigService) => ({
           transport: Transport.GRPC,
           options: {
-            url: configService.get<string>('MICROSERVICE_AUTH_URL'),
-            package: 'auth',
+            url: configService.get<string>('MICROSERVICE_USER_URL'),
+            package: 'user',
             protoPath: join(
               __dirname,
-              '../../../libs/common/src/proto/auth.proto',
+              '../../../libs/common/src/proto/user.proto',
             ),
           },
         }),
@@ -35,9 +35,7 @@ import { AuthGRpcService } from './auth-grpc.service';
       },
     ]),
   ],
-  providers: [
-    AuthGRpcService,
-  ],
-  exports: [AuthGRpcService]
+  providers: [AuthGrpcService],
+  exports: [AuthGrpcService],
 })
 export class AuthGrpcModule {}
