@@ -4,9 +4,9 @@
 Simple application to manage Todos.
 ```bash
 - Create
-- Edit
-- Mark complete/undo
-- Delete
+- Edit ( TODO )
+- Mark complete/undo ( TODO )
+- Delete ( TODO )
 - List
 ```
 
