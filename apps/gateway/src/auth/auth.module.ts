@@ -1,24 +1,17 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import * as Joi from 'joi';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { join } from 'path';
-import { AuthGrpcService } from './auth-grpc.service';
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
+import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy, LocalStrategy } from './guards';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      validationSchema: Joi.object({
-        PORT: Joi.number().required(),
-        MICROSERVICE_TODO_URL: Joi.string().required(),
-        MICROSERVICE_USER_URL: Joi.string().required(),
-      }),
-      envFilePath: './apps/gateway/.env',
-    }),
     ClientsModule.registerAsync([
       {
-        name: 'USER_PACKAGE',
+        name: 'AUTH_PACKAGE',
         imports: [ConfigModule],
         useFactory: async (configService: ConfigService) => ({
           transport: Transport.GRPC,
@@ -34,8 +27,10 @@ import { AuthGrpcService } from './auth-grpc.service';
         inject: [ConfigService],
       },
     ]),
+    JwtModule,
   ],
-  providers: [AuthGrpcService],
-  exports: [AuthGrpcService],
+  controllers: [AuthController],
+  providers: [AuthService, LocalStrategy, JwtStrategy],
+  exports: [AuthService],
 })
-export class AuthGrpcModule {}
+export class AuthModule {}

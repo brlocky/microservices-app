@@ -4,7 +4,7 @@ import { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TodoController } from './todo.controller';
 import { TodoService } from './todo.service';
-import { AuthGrpcModule } from '../auth-grpc/auth-grpc.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
@@ -26,7 +26,7 @@ import { AuthGrpcModule } from '../auth-grpc/auth-grpc.module';
         inject: [ConfigService],
       },
     ]),
-    AuthGrpcModule,
+    AuthModule,
   ],
   controllers: [TodoController],
   providers: [TodoService],

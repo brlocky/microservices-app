@@ -1,16 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
-import { TodoModule } from './modules/todo/todo.module';
+import { TodoModule } from './todo/todo.module';
 import { APP_FILTER } from '@nestjs/core';
-import { AllExceptionsFilter } from './filters';
-import { ErrorStatusMapper } from './mapper/error-status.mapper';
-import { AuthGrpcModule } from './modules/auth-grpc/auth-grpc.module';
-import { AuthController } from './controllers/auth.controller';
-import { PassportModule } from '@nestjs/passport';
-import { AuthService } from './services/auth.service';
-import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy, LocalStrategy } from './guards';
+import { ErrorStatusMapper } from './error-status.mapper';
+import { AuthModule } from './auth/auth.module';
+import { AllExceptionsFilter } from './all-exceptions.filter';
 
 @Module({
   imports: [
@@ -23,21 +18,16 @@ import { JwtStrategy, LocalStrategy } from './guards';
       }),
       envFilePath: './apps/gateway/.env',
     }),
-    PassportModule,
-    JwtModule,
-    AuthGrpcModule,
+    AuthModule,
     TodoModule,
   ],
-  controllers: [AuthController],
+  controllers: [],
   providers: [
     ErrorStatusMapper,
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
     },
-    LocalStrategy,
-    JwtStrategy,
-    AuthService
   ],
   exports: [],
 })

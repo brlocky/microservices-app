@@ -1,7 +1,7 @@
 import { todo } from '@app/common/proto/todo';
 import { Body, Get, Post, UseGuards } from '@nestjs/common';
 import { Controller } from '@nestjs/common';
-import { JwtAuthGuard } from '../../guards';
+import { JwtAuthGuard } from '../auth/guards';
 import { TodoService } from './todo.service';
 
 

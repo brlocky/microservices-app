@@ -6,11 +6,18 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Response, Request } from 'express';
-import {
-  CustomHttpExceptionResponse,
-  HttpExceptionResponse,
-} from '../interfaces/http-exception-response.interface';
-import { ErrorStatusMapper } from '../mapper/error-status.mapper';
+import { ErrorStatusMapper } from './error-status.mapper';
+
+export interface HttpExceptionResponse {
+  statusCode: number;
+  error: string;
+}
+
+export interface CustomHttpExceptionResponse extends HttpExceptionResponse {
+  path: string;
+  method: string;
+  timestamp: Date;
+}
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {

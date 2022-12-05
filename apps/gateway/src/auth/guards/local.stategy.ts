@@ -1,19 +1,19 @@
 import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { AuthGrpcService } from '../modules/auth-grpc/auth-grpc.service';
+import { AuthService } from '../auth.service';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
-  constructor(private readonly service: AuthGrpcService) {
+  constructor(private readonly service: AuthService) {
     super({ usernameField: 'email' });
   }
 
   async validate(email: string, password: string): Promise<any> {
-    const { user } = await this.service.loginUser({ email, password });
-    if (!user) {
+    const token = await this.service.loginUser({ email, password });
+    if (!token) {
       throw new UnauthorizedException();
     }
-    return user;
+    return token;
   }
 }
