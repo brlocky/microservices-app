@@ -2,6 +2,15 @@
 ## Description
 
 Simple application to manage Todos.
+
+## Auth
+```bash
+- Register
+- Login
+- Guard for routes
+```
+
+## TODO
 ```bash
 - Create
 - Edit ( TODO )
