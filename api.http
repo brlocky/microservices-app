@@ -4,10 +4,10 @@ GET http://localhost:3000/todo
 ### Create todo
 POST http://localhost:3000/todo
 Content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOGU0ZGUxNTcxNzJlMDAyYmE5MWFiMyIsIm5hbWUiOiJKb2FvIiwiaWF0IjoxNjcwMjcxNjgyLCJleHAiOjE2NzAyNzUyODJ9.Mti_qEEnCMeyPg8PMA_Q9Mo1RjZLCKg5jvzB_Tc_sSk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOGU0ZGUxNTcxNzJlMDAyYmE5MWFiMyIsIm5hbWUiOiJKb2FvIiwiaWF0IjoxNjcwNDU2OTg0LCJleHAiOjE2NzA0NjA1ODR9.rz3BBRwOKfVakBbCq3GAOugz_2CGyecKh11kjjPaFYs
 
 {
-    "message": "sa4e todos"
+    "message": "syahtodos"
 }
 
 ### Register User
@@ -16,7 +16,7 @@ Content-type: application/json
 
 {
     "name": "Joao",
-    "email": "emairrsl@gmail.com",
+    "email": "emailee@gmail.com",
     "password": "password"
 }
 

@@ -1,7 +1,7 @@
-import { todo } from '@app/common/proto/todo';
 import { Body, Get, Post, UseGuards } from '@nestjs/common';
 import { Controller } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards';
+import { CreateTodoDto, TodoDto } from './dto';
 import { TodoService } from './todo.service';
 
 
@@ -10,13 +10,13 @@ export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
   @Get()
-  async getTodos(): Promise<todo.TodoItem[]> {
+  async getTodos(): Promise<TodoDto[]> {
     return this.todoService.getAll();
   }
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  async createTodo(@Body() data: todo.CreateTodoRequest): Promise<todo.CreateTodoResponse> {
+  async createTodo(@Body() data: CreateTodoDto): Promise<TodoDto> {
     return this.todoService.createTodo(data);
   }
 }
