@@ -22,12 +22,9 @@ message CreateTodoRequest {
 }
 
 message CreateTodoResponse {
-  string id = 1;
-  string userId = 2;
-  string message = 3;
-  bool completed = 4;
+  TodoItem item = 1;
 }
 
 message GetAllTodoResponse {
-  repeated TodoItem todos = 1;
+  repeated TodoItem items = 1;
 }

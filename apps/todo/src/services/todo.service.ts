@@ -9,12 +9,16 @@ export class TodoService {
   }
 
   async create(payload: todo.CreateTodoRequest): Promise<todo.CreateTodoResponse> {
-    return this.repo.save(payload);
+    const item = await this.repo.save(payload);
+    return {
+      item
+    };
   }
 
   async findAll(payload: todo.GetAllTodoRequest): Promise<todo.GetAllTodoResponse> {
+    const items = await this.repo.find();
     return {
-      todos: await this.repo.find(),
+      items
     };
   }
 }

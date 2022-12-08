@@ -2,15 +2,15 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class TodoDto {
   @ApiProperty()
-  id: string;
+  id?: string;
 
   @ApiProperty()
-  message: string;
+  message?: string;
 
   @ApiProperty()
-  user_id: string;
+  userId?: string;
 
   @ApiProperty()
-  completed: boolean;
+  completed?: boolean;
 
 }

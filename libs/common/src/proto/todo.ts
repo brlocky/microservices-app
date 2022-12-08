@@ -32,13 +32,10 @@ export namespace todo {
         userId?: string;
     }
     export interface CreateTodoResponse {
-        id?: string;
-        userId?: string;
-        message?: string;
-        completed?: boolean;
+        item?: todo.TodoItem;
     }
     export interface GetAllTodoResponse {
-        todos?: todo.TodoItem[];
+        items?: todo.TodoItem[];
     }
 }
 

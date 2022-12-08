@@ -20,14 +20,14 @@ export class TodoService implements OnModuleInit {
     return await firstValueFrom(
       this.todoGrpcService
         .getAllTodo({})
-        .pipe(map((response) => <TodoDto[]>response.todos || [])),
+        .pipe(map((response) => response.items || [])),
     );
   }
 
   // TODO: Handle exception with interceptors convert RPC to HTTP
   async createTodo(data: todo.CreateTodoRequest): Promise<TodoDto> {
     return await firstValueFrom(
-      this.todoGrpcService.createTodo(data).pipe(map((response) => <TodoDto>response)),
+      this.todoGrpcService.createTodo(data).pipe(map((response) => response.item)),
     );
   }
 }
