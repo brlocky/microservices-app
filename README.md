@@ -62,6 +62,24 @@ $ npm run proto:build
 
 ```
 
+
+## Artillery ( installed locally )
+### Smoke/Stress test
+
+```bash
+
+$ artillery run ./artillery/<file>.yml
+
+```
+### Generate reports
+
+```bash
+
+$ artillery run ./artillery/<file>.yml --output test.json
+$ artillery report --output report.html test.json
+
+```
+
 ## Test
 
 ```bash

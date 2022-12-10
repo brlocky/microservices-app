@@ -1,0 +1,11 @@
+config:
+  target: 'http://localhost:3000'
+  phases:
+    - duration: 20
+      arrivalRate: 10
+
+scenarios:
+  - name: 'Retrieve Todos'
+    flow:
+      - get:
+          url: '/todo'
