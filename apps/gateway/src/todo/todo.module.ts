@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -8,6 +8,7 @@ import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
+    CacheModule.register(),
     ClientsModule.registerAsync([
       {
         name: 'TODO_PACKAGE',
