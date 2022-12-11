@@ -1,5 +1,6 @@
 services:
   gateway:
+    container_name: gateway
     build:
       context: .
       dockerfile: ./apps/gateway/Dockerfile
@@ -7,6 +8,8 @@ services:
     command: npm run start:debug gateway
     env_file:
       - ./apps/gateway/.env
+    depends_on:
+      - redis
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -18,6 +21,7 @@ services:
       - network
 
   user:
+    container_name: user
     build:
       context: .
       dockerfile: ./apps/user/Dockerfile
@@ -38,6 +42,7 @@ services:
       - network
   
   todo:
+    container_name: todo
     build:
       context: .
       dockerfile: ./apps/todo/Dockerfile
@@ -57,7 +62,16 @@ services:
     networks:
       - network
   
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: always
+    ports:
+      - '6379:6379'
+    profiles: [ "server" ]
+
   mongodb:
+    container_name: mongodb
     image: mongo
     ports:
       - 27017:27017
@@ -83,14 +97,16 @@ services:
       - network
   
   zookeeper:
+    container_name: zookeeper
     image: confluentinc/cp-zookeeper:latest
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
     profiles: [ "server" ]
     networks:
       - network
-  
+
   kafka:
+    container_name: kafka
     image: confluentinc/cp-kafka:latest
     depends_on:
       - zookeeper

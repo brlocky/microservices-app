@@ -1,0 +1,47 @@
+config:
+  target: 'http://gateway:3000'
+  phases:
+    - duration: 20
+      arrivalRate: 10
+  # payload:
+  #   path: 'users.csv'
+  #   fields:
+  #     - 'email'
+  #     - 'password'
+
+scenarios:
+  - flow:
+      - log: 'Register User'
+      - post:
+          url: '/auth/register'
+          json:
+            name: 'Artillery'
+            email: 'email{{ $randomString() }}@gmail.com'
+            password: 'password'
+          capture:
+            json: '$.accessToken'
+            as: accessToken
+          expect:
+            - statusCode: 200
+     
+      - loop:
+          - log: 'Create Todos'
+          - post:
+              headers:
+                Authorization: 'Bearer {{ accessToken }}'
+              url: '/todo'
+              json:
+                message: 'Artillery Post {{ $loopCount }}'
+              expect:
+                - statusCode: 200
+        count: 10
+      
+      - loop:
+        - log: 'Get Todos'
+        - get:
+            headers:
+              Authorization: 'Bearer {{ accessToken }}'
+            url: '/todo'
+            expect:
+              - statusCode: 200
+        count: 10
