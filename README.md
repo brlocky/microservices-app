@@ -75,7 +75,7 @@ $ artillery run ./artillery/<file>.yml
 
 ```bash
 
-$ artillery run ./artillery/<file>.yml --output test.json
+$ artillery run ./tests/performance/<file>.yml --output test.json
 $ artillery report --output report.html test.json
 
 ```

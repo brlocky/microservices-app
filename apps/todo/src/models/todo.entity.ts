@@ -1,17 +1,39 @@
-import { Column, Entity, ObjectIdColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ObjectIdColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
+interface NewTodo {
+  message: string;
+  userId: string;
+}
 @Entity()
 export class TodoEntity {
   @ObjectIdColumn()
-  id: string;
+  public id: string;
 
   @Column()
-  message: string;
+  public message: string;
 
   @Column()
-  user_id: string;
+  public userId: string;
 
-  @Column({ default: false })
-  completed: boolean;
+  @Column()
+  public completed: boolean;
 
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
+  public createdAt: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+    onUpdate: 'CURRENT_TIMESTAMP(6)',
+  })
+  public updatedAt: Date;
 }
