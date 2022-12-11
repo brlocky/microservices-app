@@ -11,23 +11,22 @@ export class TodoService implements OnModuleInit {
 
   onModuleInit() {
     this.todoGrpcService =
-      this.
-      client.getService<todo.TodoGrpcService>('TodoGrpcService');
+      this.client.getService<todo.TodoGrpcService>('TodoGrpcService');
   }
 
-  // TODO: Handle exception with interceptors convert RPC to HTTP
   async getAll(): Promise<TodoDto[]> {
-    return await firstValueFrom(
+    return firstValueFrom(
       this.todoGrpcService
         .getAllTodo({})
         .pipe(map((response) => response.items || [])),
     );
   }
 
-  // TODO: Handle exception with interceptors convert RPC to HTTP
   async createTodo(data: todo.CreateTodoRequest): Promise<TodoDto> {
-    return await firstValueFrom(
-      this.todoGrpcService.createTodo(data).pipe(map((response) => response.item)),
+    return firstValueFrom(
+      this.todoGrpcService
+        .createTodo(data)
+        .pipe(map((response) => response.item)),
     );
   }
 }

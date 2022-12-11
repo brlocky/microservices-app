@@ -33,7 +33,7 @@ export class TodoService {
       },
     });
     return {
-      items,
+      items
     };
   }
 }
