@@ -1,4 +1,4 @@
-import { Body, CacheInterceptor, Get, Post, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Get, Post, UseGuards, UseInterceptors } from '@nestjs/common';
 import { Controller } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards';
 import { CreateTodoDto, TodoDto } from './dto';
@@ -6,7 +6,6 @@ import { TodoService } from './todo.service';
 
 
 @Controller('todo')
-@UseInterceptors(CacheInterceptor)
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 

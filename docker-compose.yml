@@ -6,8 +6,6 @@ services:
       dockerfile: ./apps/gateway/Dockerfile
       target: development
     command: npm run start:debug gateway
-    # env_file:
-    #   - ./apps/gateway/.env
     depends_on:
       - redis
     volumes:
@@ -27,8 +25,6 @@ services:
       dockerfile: ./apps/user/Dockerfile
       target: development
     command: npm run start:debug user
-    # env_file:
-    #   - ./apps/user/.env
     depends_on:
       - kafka
       - mongodb
@@ -48,8 +44,6 @@ services:
       dockerfile: ./apps/todo/Dockerfile
       target: development
     command: npm run start:debug todo
-    # env_file:
-    #   - ./apps/todo/.env
     depends_on:
       - kafka
       - mongodb
