@@ -68,14 +68,14 @@ jobs:
           npm ci
           npm run build
 
-      - name: Run Gateway
-        run: node ./dist/apps/gateway/main.js
+      # - name: Run Gateway
+      #   run: node ./dist/apps/gateway/main.js
 
-      - name: Run Auth
-        run: node ./dist/apps/user/main.js
+      # - name: Run Auth
+      #   run: node ./dist/apps/user/main.js
 
-      - name: Run Todo
-        run: node ./dist/apps/todo/main.js
+      # - name: Run Todo
+      #   run: node ./dist/apps/todo/main.js
 
   # artillery:
   #   needs: main
