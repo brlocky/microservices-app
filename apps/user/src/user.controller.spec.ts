@@ -15,8 +15,8 @@ describe('UserController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(userController.getHello()).toBe('Hello World!');
-    });
+    // it('should return "Hello World!"', () => {
+    //   expect(userController.getHello()).toBe('Hello World!');
+    // });
   });
 });

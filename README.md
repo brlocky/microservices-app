@@ -1,4 +1,3 @@
-
 ## Description
 
 Simple application to manage Todos.

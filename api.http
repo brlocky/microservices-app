@@ -1,13 +1,13 @@
-### Get all Todos
+### Get all Tod@os
 GET http://localhost:3000/todo
 
 ### Create todo
 POST http://localhost:3000/todo
 Content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOGU0ZGUxNTcxNzJlMDAyYmE5MWFiMyIsIm5hbWUiOiJKb2FvIiwiaWF0IjoxNjcwNDU2OTg0LCJleHAiOjE2NzA0NjA1ODR9.rz3BBRwOKfVakBbCq3GAOugz_2CGyecKh11kjjPaFYs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyIsImlhdCI6MTY3MDcxOTE4OCwiZXhwIjoxNjcwNzIyNzg4fQ.se6Y2i8DpjkCE3NNC7nhXDU8Igsjc8CtRxor3OUKz5Y
 
 {
-    "message": "syahtodos"
+    "message": "sis14"
 }
 
 ### Register User
@@ -16,7 +16,7 @@ Content-type: application/json
 
 {
     "name": "Joao",
-    "email": "emailee@gmail.com",
+    "email": "em3ail10@gmail.com",
     "password": "password"
 }
 

@@ -1,0 +1,103 @@
+name: Main
+on:
+  push:
+    branches: [main]
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+
+    # services:
+    #   redis:
+    #     image: redis
+    #     ports:
+    #       - 6379:6379
+    #     options: >-
+    #       --health-cmd "redis-cli ping"
+    #       --health-interval 10s
+    #       --health-timeout 5s
+    #       --health-retries 5
+
+    #   mongodb:
+    #     image: mongo
+    #     ports:
+    #       - 27017:27017
+    #     env:
+    #       MONGO_INITDB_ROOT_USERNAME: admin
+    #       MONGO_INITDB_ROOT_PASSWORD: password
+    #       MONGO_INITDB_DATABASE: test
+    #     options: >-
+    #       --health-cmd mongo
+    #       --health-interval 10s
+    #       --health-timeout 5s
+    #       --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: npm-
+
+      - name: WIP - .env
+        run: |
+          ls
+          cp ./apps/gateway/.env.example ./apps/gateway/.env
+          cp ./apps/todo/.env.example ./apps/todo/.env
+          cp ./apps/user/.env.example ./apps/user/.env
+
+      - name: LS ?
+        run: |
+          pwd
+          ls -la
+          ls ./apps/gateway/.env
+          cat ./apps/gateway/.env
+          cat ./apps/todo/.env
+          cat ./apps/user/.env
+
+      - name: Clean install dependencies and build
+        run: |
+          npm ci
+          npm run build
+
+      - name: Run Gateway
+        run: node ./dist/apps/gateway/main.js
+
+      - name: Run Auth
+        run: node ./dist/apps/user/main.js
+
+      - name: Run Todo
+        run: node ./dist/apps/todo/main.js
+
+  # artillery:
+  #   needs: main
+  #   runs-on: ubuntu-latest
+
+  #   container: artilleryio/artillery:latest
+
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v3
+
+  #     - name: Make reports directory
+  #       run: mkdir reports
+
+  #     - name: Execute load tests
+  #       run: /home/node/artillery/bin/artillery run --output reports/report.json tests/performance/todo.yml
+
+  #     - name: Generate HTML report
+  #       run: /home/node/artillery/bin/artillery report --output reports/report reports/report.json
+
+  #     - name: Archive test report
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: artillery-test-report
+  #         path: reports/*
