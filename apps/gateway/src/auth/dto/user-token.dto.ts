@@ -5,5 +5,5 @@ export class UserTokenDto {
   accessToken: string;
 
   @ApiProperty()
-  refreshToken: string;
+  refreshToken?: string;
 }

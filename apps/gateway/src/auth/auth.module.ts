@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy, LocalStrategy } from './guards';
+import { JwtRefreshStrategy } from './guards/jwt-refresh.strategy';
 
 @Module({
   imports: [
@@ -30,7 +31,7 @@ import { JwtStrategy, LocalStrategy } from './guards';
     JwtModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy, JwtRefreshStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}

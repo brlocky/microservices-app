@@ -6,7 +6,7 @@ import { ClientGrpc } from '@nestjs/microservices';
 import { firstValueFrom, map } from 'rxjs';
 import { UserTokenDto } from './dto';
 
-interface JwtPayload {
+export interface JwtPayload {
   id: string;
   name: string;
 }
@@ -31,7 +31,7 @@ export class AuthService {
       this.service.register(payload).pipe(map((response) => response)),
     );
 
-    return this.generateToken(user);
+    return this.generateAuthToken(user);
   }
 
   async loginUser(payload: user.LoginRequest): Promise<UserTokenDto> {
@@ -39,7 +39,13 @@ export class AuthService {
       this.service.login(payload).pipe(map((response) => response)),
     );
 
-    return this.generateToken(user);
+    return this.generateAuthToken(user);
+  }
+
+  refreshToken(payload: JwtPayload): UserTokenDto {
+    return {
+      accessToken: this.generateAccessToken(payload),
+    };
   }
 
   /**
@@ -47,23 +53,30 @@ export class AuthService {
    * @param user
    * @returns
    */
-  async generateToken(user: user.User): Promise<UserTokenDto> {
+  async generateAuthToken(user: user.User): Promise<UserTokenDto> {
     const jwtPayload: JwtPayload = {
       id: user.id,
       name: user.name,
     };
 
-    const accessToken = await this.jwtService.signAsync(jwtPayload, {
+    return {
+      accessToken: this.generateAccessToken(jwtPayload),
+      refreshToken: this.jwtService.sign(jwtPayload, {
+        secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
+        expiresIn: this.configService.get<string>('JWT_REFRESH_EXPIRATION'),
+      }),
+    };
+  }
+
+  /**
+   * Generate User Access Token
+   * @param user
+   * @returns string
+   */
+  generateAccessToken(jwtPayload: JwtPayload): string {
+    return this.jwtService.sign(jwtPayload, {
       secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
       expiresIn: this.configService.get<string>('JWT_ACCESS_EXPIRATION'),
     });
-    const refreshToken = await this.jwtService.signAsync(jwtPayload, {
-      secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
-      expiresIn: this.configService.get<string>('JWT_REFRESH_EXPIRATION'),
-    });
-    return {
-      accessToken,
-      refreshToken,
-    };
   }
 }
